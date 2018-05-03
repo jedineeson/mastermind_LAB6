@@ -21,7 +21,7 @@ int main()
 	
 	std::vector<char> colors = std::vector<char>({ 'a','b','c','d','e', 'f' });
 	std::vector<char> master = std::vector<char>({ colors[choix(hasard)], colors[choix(hasard)], colors[choix(hasard)], colors[choix(hasard)] });
-	std::cout << master[0] << master[1] << master[2] << master[3] << std::endl;
+	//std::cout << master[0] << master[1] << master[2] << master[3] << std::endl;
 
 	int gridWidth = 6;
 	int gridHeight = 10;
@@ -35,7 +35,7 @@ int main()
 			grid[i].push_back(' ');
 		}
 	}
-
+	play(grid, master);
 }
 
 int play(std::vector<std::vector<char>>& grid, std::vector<char>& master)
@@ -51,7 +51,7 @@ int play(std::vector<std::vector<char>>& grid, std::vector<char>& master)
 		std::cin >> grid[round][0], grid[round][1], grid[round][2], grid[round][3];
 
 		//verification()
-		//showgrid()
+		showgrid(grid);
 
 		if (grid[round][0] == master[0] && grid[round][1] == master[1] && grid[round][2] == master[2] && grid[round][3] == master[3])
 		{
