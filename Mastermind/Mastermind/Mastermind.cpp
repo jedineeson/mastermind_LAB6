@@ -4,15 +4,15 @@
 #include "stdafx.h"
 #include <iostream>
 #include <vector>
-#include "mastermind.h"
 #include <random>
+#include <string>
 
 std::random_device depart;
 std::mt19937 hasard(depart());
 std::uniform_int_distribution<> choix(0, 5);
 
 void play(std::vector<std::vector<char>>& grid, std::vector<char>& master);
-
+void rules();
 
 int main()
 {
@@ -41,14 +41,14 @@ void play(std::vector<std::vector<char>>& grid, std::vector<char>& master)
 {
 	int round;
 	round = 0;
-
+	rules();
 	do
 	{
 		round += 1;
 		std::cout << " " << std::endl;
 		std::cout << "Entrez une séquence ";
 		std::cin >> grid[round][0], grid[round][1], grid[round][2], grid[round][3];
-		
+
 		//verification()
 		//showgrid()
 
@@ -64,5 +64,32 @@ void play(std::vector<std::vector<char>>& grid, std::vector<char>& master)
 
 		round += 1;
 	} while (round == 10 || grid[round][0] == master[0] && grid[round][1] == master[1] && grid[round][2] == master[2] && grid[round][3] == master[3]);
-
 }
+	
+void rules()
+{
+	std::string jouer;
+	std::cout << "Bonsoir étranger," << std::endl;
+	std::cout << "j'étais justement à la recherche d'un serrurier!" << std::endl;
+	std::cout << "Un ancien voleur de banque fera très bien l'affaire!" << std::endl;
+
+	do
+	{
+		std::cout << "Vous voulez bien m'aider à ouvrir mon coffre-fort? (oui / non): " << std::endl;
+		std::cin >> jouer;
+		if (jouer != "oui")
+		{
+			std::cout << "S'il vous plaît monsieur!" << std::endl;
+		}
+	} while (jouer == "oui");
+
+	std::cout << "-----------------------------------" << std::endl;
+	std::cout << "Merci monsieur!" << std::endl;
+	std::cout << "Le code est composé de 4 charactères et peux contenir les lettres 'a', 'b', 'c', 'd', 'e' et 'f'." << std::endl;
+	std::cout << "Attention, les lettres peuvent se répéter plus d'une fois." << std::endl;
+	std::cout << "Nous n'avons que 10 tentatives avant que le coffre s'auto-détruise!" << std::endl;
+	std::cout << "À chaque tentative le coffre affiche combien de lettres sont exactes et bien placées(BP) et combien de lettres sont exactes et mal placées." << std::endl;
+	std::cout << "Bonne chance étranger!" << std::endl;
+	std::cout << "-----------------------------------" << std::endl;
+}
+
