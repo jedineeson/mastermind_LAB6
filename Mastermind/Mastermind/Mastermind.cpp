@@ -11,9 +11,10 @@ std::random_device depart;
 std::mt19937 hasard(depart());
 std::uniform_int_distribution<> choix(0, 5);
 
-int play(std::vector<std::vector<char>>& grid, std::vector<char>& master);
+int play(std::vector<std::vector<char>>& grid, std::vector<char>& master, int& round);
 void rules();
 void showgrid(std::vector<std::vector<char>>& grid);
+void verification(std::vector<std::vector<char>>& grid, std::vector<char>& master, int& round);
 
 int main()
 {
@@ -25,32 +26,31 @@ int main()
 
 	int gridWidth = 6;
 	int gridHeight = 10;
+	int round = 0;
 
-	for (int i = 0; i < gridWidth; i++)
+	for (int i = 0; i < gridHeight; i++)
 	{
 		grid.push_back(std::vector<char>());
 
-		for (int j = 0; j < gridHeight; j++)
+		for (int j = 0; j < gridWidth; j++)
 		{
 			grid[i].push_back(' ');
 		}
 	}
-	play(grid, master);
+
+	play(grid, master, round);
 }
 
-int play(std::vector<std::vector<char>>& grid, std::vector<char>& master)
+int play(std::vector<std::vector<char>>& grid, std::vector<char>& master, int& round)
 {
-	int round;
-	round = 0;
 	rules();
 	do
 	{
-		round += 1;
 		std::cout << " " << std::endl;
 		std::cout << "Entrez une séquence ";
-		std::cin >> grid[round][0], grid[round][1], grid[round][2], grid[round][3];
+		std::cin >> grid[round][0] >> grid[round][1] >> grid[round][2] >> grid[round][3];
 
-		//verification()
+		verification(grid, master, round);
 		showgrid(grid);
 
 		if (grid[round][0] == master[0] && grid[round][1] == master[1] && grid[round][2] == master[2] && grid[round][3] == master[3])
@@ -62,9 +62,8 @@ int play(std::vector<std::vector<char>>& grid, std::vector<char>& master)
 			std::cout << "Ce qui viens de se passer devra rester entre nous!" << std::endl;
 			std::cout << "Félicitation !" << std::endl;
 		}
-
 		round += 1;
-	} while (round == 10 || grid[round][0] == master[0] && grid[round][1] == master[1] && grid[round][2] == master[2] && grid[round][3] == master[3]);
+	} while (round != 9 || (grid[round][0] == master[0] && grid[round][1] == master[1] && grid[round][2] == master[2] && grid[round][3] == master[3]));
 
 	return round;
 }
@@ -75,16 +74,13 @@ void rules()
 	std::cout << "Bonsoir étranger," << std::endl;
 	std::cout << "j'étais justement à la recherche d'un serrurier!" << std::endl;
 	std::cout << "Un ancien voleur de banque fera très bien l'affaire!" << std::endl;
-
-	do
+	std::cout << "Vous voulez bien m'aider à ouvrir mon coffre-fort? (oui / non): " << std::endl;
+	std::cin >> jouer;
+	while(jouer != "oui")
 	{
-		std::cout << "Vous voulez bien m'aider à ouvrir mon coffre-fort? (oui / non): " << std::endl;
+		std::cout << "S'il vous plaît monsieur!" << std::endl;
 		std::cin >> jouer;
-		if (jouer != "oui")
-		{
-			std::cout << "S'il vous plaît monsieur!" << std::endl;
-		}
-	} while (jouer == "oui");
+	}
 
 	std::cout << "-----------------------------------" << std::endl;
 	std::cout << "Merci monsieur!" << std::endl;
@@ -98,16 +94,178 @@ void rules()
 
 void showgrid(std::vector<std::vector<char>>& grid)
 {
-	std::cout << "     " << "     " << "     " << "    " << "[ BP  MP ]" << std::endl;
-	std::cout << "[" << grid[1][1] << "][" << grid[1][2] << "][" << grid[1][3] << "][" << grid[1][4] << "] - [" << grid[1][5] << "][" << grid[1][6] << "]" << std::endl;
-	std::cout << "[" << grid[2][1] << "][" << grid[2][2] << "][" << grid[2][3] << "][" << grid[2][4] << "] - [" << grid[2][5] << "][" << grid[2][6] << "]" << std::endl;
-	std::cout << "[" << grid[3][1] << "][" << grid[3][2] << "][" << grid[3][3] << "][" << grid[3][4] << "] - [" << grid[3][5] << "][" << grid[3][6] << "]" << std::endl;
-	std::cout << "[" << grid[4][1] << "][" << grid[4][2] << "][" << grid[4][3] << "][" << grid[4][4] << "] - [" << grid[4][5] << "][" << grid[4][6] << "]" << std::endl;
-	std::cout << "[" << grid[5][1] << "][" << grid[5][2] << "][" << grid[5][3] << "][" << grid[5][4] << "] - [" << grid[5][5] << "][" << grid[5][6] << "]" << std::endl;
-	std::cout << "[" << grid[6][1] << "][" << grid[6][2] << "][" << grid[6][3] << "][" << grid[6][4] << "] - [" << grid[6][5] << "][" << grid[6][6] << "]" << std::endl;
-	std::cout << "[" << grid[7][1] << "][" << grid[7][2] << "][" << grid[7][3] << "][" << grid[7][4] << "] - [" << grid[7][5] << "][" << grid[7][6] << "]" << std::endl;
-	std::cout << "[" << grid[8][1] << "][" << grid[8][2] << "][" << grid[8][3] << "][" << grid[8][4] << "] - [" << grid[8][5] << "][" << grid[8][6] << "]" << std::endl;
-	std::cout << "[" << grid[9][1] << "][" << grid[9][2] << "][" << grid[9][3] << "][" << grid[9][4] << "] - [" << grid[9][5] << "][" << grid[9][6] << "]" << std::endl;
-	std::cout << "[" << grid[10][1] << "][" << grid[10][2] << "][" << grid[10][3] << "][" << grid[10][4] << "] - [" << grid[10][5] << "][" << grid[10][6] << "]" << std::endl;
+	std::cout <<"               BP  MP" << std::endl;
+	std::cout << "[" << grid[0][0] << "][" << grid[0][1] << "][" << grid[0][2] << "][" << grid[0][3] << "] - [" << grid[0][4] << "][" << grid[0][5] << "]" << std::endl;
+	std::cout << "[" << grid[1][0] << "][" << grid[1][1] << "][" << grid[1][2] << "][" << grid[1][3] << "] - [" << grid[1][4] << "][" << grid[1][5] << "]" << std::endl;
+	std::cout << "[" << grid[2][0] << "][" << grid[2][1] << "][" << grid[2][2] << "][" << grid[2][3] << "] - [" << grid[2][4] << "][" << grid[2][5] << "]" << std::endl;
+	std::cout << "[" << grid[3][0] << "][" << grid[3][1] << "][" << grid[3][2] << "][" << grid[3][3] << "] - [" << grid[3][4] << "][" << grid[3][5] << "]" << std::endl;
+	std::cout << "[" << grid[4][0] << "][" << grid[4][1] << "][" << grid[4][2] << "][" << grid[4][3] << "] - [" << grid[4][4] << "][" << grid[4][5] << "]" << std::endl;
+	std::cout << "[" << grid[5][0] << "][" << grid[5][1] << "][" << grid[5][2] << "][" << grid[5][3] << "] - [" << grid[5][4] << "][" << grid[5][5] << "]" << std::endl;
+	std::cout << "[" << grid[6][0] << "][" << grid[6][1] << "][" << grid[6][2] << "][" << grid[6][3] << "] - [" << grid[6][4] << "][" << grid[6][5] << "]" << std::endl;
+	std::cout << "[" << grid[7][0] << "][" << grid[7][1] << "][" << grid[7][2] << "][" << grid[7][3] << "] - [" << grid[7][4] << "][" << grid[7][5] << "]" << std::endl;
+	std::cout << "[" << grid[8][0] << "][" << grid[8][1] << "][" << grid[8][2] << "][" << grid[8][3] << "] - [" << grid[8][4] << "][" << grid[8][5] << "]" << std::endl;
+	std::cout << "[" << grid[9][0] << "][" << grid[9][1] << "][" << grid[9][2] << "][" << grid[9][3] << "] - [" << grid[9][4] << "][" << grid[9][5] << "]" << std::endl;
+}
+
+void verification(std::vector<std::vector<char>>& grid, std::vector<char>& master, int& round)
+{
+	int bonnePlace = 0;
+	int mauvaisePlace = 0;
+	std::vector<char> gridCopy(4);
+	std::vector<char> masterCopy(4);
+
+	gridCopy[0] = grid[round][0];
+	gridCopy[1] = grid[round][1];
+	gridCopy[2] = grid[round][2];
+	gridCopy[3] = grid[round][3];
+
+	masterCopy[0] = master[0];
+	masterCopy[1] = master[1];
+	masterCopy[2] = master[2];
+	masterCopy[3] = master[3];
+
+	if (gridCopy[0] == masterCopy[0])
+	{
+		bonnePlace += 1;
+		gridCopy[0] = ' ';
+		masterCopy[0] = ' ';
+	}
+	else if (gridCopy[0] == masterCopy[1] && gridCopy[1] != masterCopy[1])
+	{
+		mauvaisePlace += 1;
+		gridCopy[0] = ' ';
+		masterCopy[1] = ' ';
+	}
+	else if (gridCopy[0] == masterCopy[2] && gridCopy[2] != masterCopy[2])
+	{
+		mauvaisePlace += 1;
+		gridCopy[0] = ' ';
+		masterCopy[2] = ' ';
+	}
+	else if (gridCopy[0] == masterCopy[3] && gridCopy[3] != masterCopy[3])
+	{
+		mauvaisePlace += 1;
+		gridCopy[0] = ' ';
+		masterCopy[3] = ' ';
+	}
+
+	if (gridCopy[1] == masterCopy[1])
+	{
+		bonnePlace += 1;
+		gridCopy[1] = ' ';
+		masterCopy[1] = ' ';
+	}
+	else if (gridCopy[1] == masterCopy[0] && gridCopy[0] != masterCopy[0])
+	{
+		mauvaisePlace += 1;
+		gridCopy[1] = ' ';
+		masterCopy[0] = ' ';
+	}
+	else if (gridCopy[1] == masterCopy[2] && gridCopy[2] != masterCopy[2])
+	{
+		mauvaisePlace += 1;
+		gridCopy[1] = ' ';
+		masterCopy[2] = ' ';
+	}
+	else if (gridCopy[1] == masterCopy[3] && gridCopy[3] != masterCopy[3])
+	{
+		mauvaisePlace += 1;
+		gridCopy[1] = ' ';
+		masterCopy[3] = ' ';
+	}
+
+	if (gridCopy[2] == masterCopy[2])
+	{
+		bonnePlace += 1;
+		gridCopy[2] = ' ';
+		masterCopy[2] = ' ';
+	}
+	else if (gridCopy[2] == masterCopy[0] && gridCopy[0] != masterCopy[0])
+	{
+		mauvaisePlace += 1;
+		gridCopy[2] = ' ';
+		masterCopy[0] = ' ';
+	}
+	else if (gridCopy[2] == masterCopy[1] && gridCopy[1] != masterCopy[1])
+	{
+		mauvaisePlace += 1;
+		gridCopy[2] = ' ';
+		masterCopy[1] = ' ';
+	}
+	else if (gridCopy[2] == masterCopy[3] && gridCopy[3] != masterCopy[3])
+	{
+		mauvaisePlace += 1;
+		gridCopy[2] = ' ';
+		masterCopy[3] = ' ';
+	}
+
+
+	if (gridCopy[3] == masterCopy[3])
+	{
+		bonnePlace += 1;
+		gridCopy[2] = ' ';
+		masterCopy[2] = ' ';
+	}
+	else if (gridCopy[3] && masterCopy[0] && gridCopy[0] != masterCopy[0])
+	{
+		mauvaisePlace += 1;
+		gridCopy[3] = ' ';
+		masterCopy[0] = ' ';
+	}
+	else if (gridCopy[3] == masterCopy[1] && gridCopy[1] != masterCopy[1])
+	{
+		mauvaisePlace += 1;
+		gridCopy[3] = ' ';
+		masterCopy[1] = ' ';
+	}
+	else if (gridCopy[3] == masterCopy[2] && gridCopy[2] != masterCopy[2])
+	{
+		mauvaisePlace += 1;
+		gridCopy[3] = ' ';
+		masterCopy[2] = ' ';
+	}
+	
+	if (mauvaisePlace == 1)
+	{
+		grid[round][5] = '1';
+	}
+	else if (mauvaisePlace == 2)
+	{
+		grid[round][5] = '2';
+	}
+	else if (mauvaisePlace == 3)
+	{
+		grid[round][5] = '3';
+	}
+	else if (mauvaisePlace == 4)
+	{
+		grid[round][5] = '4';
+	}
+	else
+	{
+		grid[round][5] = '0';
+	}
+
+	if (bonnePlace == 1)
+	{
+		grid[round][4] = '1';
+	}
+	else if (bonnePlace == 2)
+	{
+		grid[round][4] = '2';
+	}
+	else if (bonnePlace == 3)
+	{
+		grid[round][4] = '3';
+	}
+	else if (bonnePlace == 4)
+	{
+		grid[round][4] = '4';
+	}
+	else
+	{
+		grid[round][4] = '0';
+	}
+
 }
 
